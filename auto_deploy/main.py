@@ -14,14 +14,30 @@ src1 = 'D:/BaiduNetdiskDownload/'
 src2 = '/tmp/'
 cmd = f'tar -zxvf /tmp/{filename} -C /home/xiaopan/'
 
+hosts = {}
 
-logo = '''
-
-
-
-'''
 
 def main():
+    logo = '''
+
+    ###################################
+    #####   GPU算力池自动化部署脚本   #####
+    ###################################
+
+    1.初始化操作系统
+    2.部署K8S节点
+    3.部署PASS相关应用
+    4.部署GPU算力池应用
+    5.上传部署相关脚本
+
+    '''
+    print(logo)
+
+def config_sys():
+
+
+
+def file_check():
     ssh = SFTPClient(hostname)
     # print(ssh.file_exits(f'{src2}{filename}'))
     while True:
@@ -30,17 +46,23 @@ def main():
             print('文件传输完成')
             continue
         else:
-            ssh.exec_command(cmd)
-            print('解压成功')
-            break
-# def print_hi(name):
-#     # 在下面的代码行中使用断点来调试脚本。
-#     print(f'Hi, {name}')  # 按 Ctrl+F8 切换断点。
+            if ssh.file_exits(f'/home/xiaopan/lx') == '':
+                ssh.exec_command(cmd)
+                print('解压成功')
+            else:
+                print('文件夹已存在，无需解压')
+        break
 
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
     # print_hi('PyCharm')
-    main()
+    while True:
+        main()
+        num = str(input("请输入你的操作："))
+        if num == '5':
+            file_check()
+            continue
+
 
 # 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
